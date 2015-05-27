@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
 
@@ -41,4 +41,6 @@
         <item name="android:textSize">20.0sp</item>
         <item name="android:textColor">@color/title_text_color</item>
     </style>
+
+
 </resources>
