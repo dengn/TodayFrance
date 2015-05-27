@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import dengn.todayfrance.fragment.MainFragment;
+
 
 public class MainActivity extends AppCompatActivity{
 
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity{
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
+            MainFragment fragment = new MainFragment();
             transaction.replace(R.id.fragment_layout, fragment);
             transaction.commit();
         }
