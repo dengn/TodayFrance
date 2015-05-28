@@ -6,13 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+
+    <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar">
-    </include>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
+        android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="7dp">

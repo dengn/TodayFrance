@@ -4,7 +4,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <include layout="@layout/tool_bar" />
 
     <dengn.todayfrance.view.SlidingTabLayout
         android:id="@+id/sliding_tabs"
