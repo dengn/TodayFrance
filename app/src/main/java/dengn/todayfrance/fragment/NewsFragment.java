@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
+import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dengn.todayfrance.R;
 import dengn.todayfrance.adapter.NewsRecyclerViewAdapter;
+import dengn.todayfrance.bean.NewsEntity;
 
 
 public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefreshListener {
@@ -31,7 +34,11 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
     @InjectView(R.id.swipe_container)
     SwipyRefreshLayout swipeContainer;
 
+    NewsRecyclerViewAdapter newsRecyclerViewAdapter;
+
     private String title;
+
+    private ArrayList<NewsEntity> newsEntities = new ArrayList<NewsEntity>();
 
 
     public static NewsFragment newInstance(String title) {
@@ -61,6 +68,8 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
         swipeContainer.setDirection(SwipyRefreshLayoutDirection.BOTH);
         swipeContainer.setOnRefreshListener(this);
 
+
+
         return view;
     }
 
@@ -70,10 +79,20 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
 
         newsList.setLayoutManager(new LinearLayoutManager(getActivity()));//这里用线性显示 类似于list view
 
-        newsList.setAdapter(new NewsRecyclerViewAdapter(getActivity()));
+        newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
+        newsList.setAdapter(newsRecyclerViewAdapter);
         newsList.setItemAnimator(new DefaultItemAnimator());
     }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
+        if (isVisibleToUser && isVisible() && newsList.getVisibility() != View.VISIBLE) {
+            //initData(); //加载数据的方法
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
 

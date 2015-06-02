@@ -1,5 +1,7 @@
 package dengn.todayfrance.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,12 @@ import dengn.todayfrance.bean.NewsEntity;
  * Created by OLEDCOMM on 27/05/2015.
  */
 public class Constants {
+
+    public static boolean DEBUG = true;
+
+    public static String TAG = "todayfrance";
+
+    public static ObjectMapper objectMapper = new ObjectMapper();
 
     public static ArrayList<NewsClassify> getData() {
         ArrayList<NewsClassify> newsClassify = new ArrayList<NewsClassify>();

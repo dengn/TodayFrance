@@ -2,11 +2,14 @@ package dengn.todayfrance.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
 
@@ -26,17 +29,22 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    private String[] newsTitles = new String[12];
-    private String[] newsSummarys = new String[12];
-    private String[] newsSources = new String[12];
+    ArrayList<NewsEntity> newsEntity;
 
-    public NewsRecyclerViewAdapter(Context context) {
-        ArrayList<NewsEntity> newsEntity = Constants.getNews();
-        for (int i = 0; i < newsEntity.size(); i++) {
-            newsTitles[i] = newsEntity.get(i).getTitle();
-            newsSummarys[i] = newsEntity.get(i).getSummary();
-            newsSources[i] = newsEntity.get(i).getSource();
+    public NewsRecyclerViewAdapter(Context context, ArrayList<NewsEntity> newsEntities) {
+
+
+        try {
+            String jsonString = Constants.objectMapper.writeValueAsString(newsEntity);
+            if(Constants.DEBUG) {
+                Log.d(Constants.TAG, "jackson: " + jsonString);
+            }
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
+
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
@@ -55,9 +63,9 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsTextViewHolder) {
-            ((NewsTextViewHolder) holder).newsHead.setText(newsTitles[position]);
-            ((NewsTextViewHolder) holder).newsTime.setText(newsSummarys[position]);
-            ((NewsTextViewHolder) holder).newsBody.setText(newsSources[position]);
+            ((NewsTextViewHolder) holder).newsHead.setText(newsEntity.get(position).getTitle());
+            ((NewsTextViewHolder) holder).newsTime.setText(newsEntity.get(position).getNewsAbstract());
+            ((NewsTextViewHolder) holder).newsBody.setText(newsEntity.get(position).getSource());
         } else if (holder instanceof NewsImageViewHolder) {
             //((NewsImageViewHolder) holder).mTextView.setText(mTitles[position]);
         } else {
@@ -67,7 +75,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return newsTitles == null ? 0 : newsTitles.length;
+        return newsEntity == null ? 0 : newsEntity.size();
     }
 
     public static class NewsTextViewHolder extends RecyclerView.ViewHolder {
