@@ -2,7 +2,7 @@ package dengn.todayfrance.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by OLEDCOMM on 27/05/2015.
  */
-public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
+public class NewsFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Fragment> fragments;
     private FragmentManager fm;
 

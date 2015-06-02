@@ -73,6 +73,12 @@ public class MainFragment extends Fragment {
     };
 
 
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     /**
      * Inflates the {@link View} which will be displayed by this {@link Fragment}, from the app's
@@ -86,11 +92,8 @@ public class MainFragment extends Fragment {
 
         int count =  newsClassify.size();
         for(int i = 0; i< count;i++){
-            Bundle data = new Bundle();
-            data.putString("title", newsClassify.get(i).getTitle());
-            NewsFragment newfragment = new NewsFragment();
-            newfragment.setArguments(data);
-            fragments.add(newfragment);
+
+            fragments.add(NewsFragment.newInstance(newsClassify.get(i).getTitle()));
         }
         return inflater.inflate(R.layout.fragment_main, container, false);
     }

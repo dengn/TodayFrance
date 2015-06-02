@@ -3,6 +3,7 @@ package dengn.todayfrance.data;
 import java.util.ArrayList;
 
 import dengn.todayfrance.bean.NewsClassify;
+import dengn.todayfrance.bean.NewsEntity;
 
 /**
  * Created by OLEDCOMM on 27/05/2015.
@@ -44,5 +45,40 @@ public class Constants {
         classify.setTitle("汽车");
         newsClassify.add(classify);
         return newsClassify;
+    }
+
+    public static ArrayList<NewsEntity> getNews(){
+        ArrayList<NewsEntity> newsEntities = new ArrayList<NewsEntity>();
+        NewsEntity entity = new NewsEntity();
+        entity.setTitle("hahahah");
+        entity.setSummary("123455");
+        entity.setSource("xinhuashe");
+        newsEntities.add(entity);
+        entity = new NewsEntity();
+        entity.setTitle("124er");
+        entity.setSummary("tewetwer");
+        entity.setSource("sgwt243");
+        newsEntities.add(entity);
+        entity = new NewsEntity();
+        entity.setTitle("23rwr");
+        entity.setSummary("gwr");
+        entity.setSource("sghrg");
+        newsEntities.add(entity);
+        entity = new NewsEntity();
+        entity.setTitle("etr42");
+        entity.setSummary("wghtrhw");
+        entity.setSource("hrgegre");
+        newsEntities.add(entity);
+        entity = new NewsEntity();
+        entity.setTitle("fwrtgwrg");
+        entity.setSummary("sgrehreghe");
+        entity.setSource("sdhregregr");
+        newsEntities.add(entity);
+        entity = new NewsEntity();
+        entity.setTitle("wgwrgre");
+        entity.setSummary("wgwregr");
+        entity.setSource("wrrg");
+        newsEntities.add(entity);
+        return newsEntities;
     }
 }
