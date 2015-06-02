@@ -16,17 +16,7 @@ import dengn.todayfrance.R;
 import dengn.todayfrance.bean.NewsEntity;
 import dengn.todayfrance.data.Constants;
 
-/**
- * Author:    ZhuWenWu
- * Version    V1.0
- * Date:      2015/1/15  18:18.
- * Description:
- * Modification  History:
- * Date         	Author        		Version        	Description
- * -----------------------------------------------------------------------------------
- * 2015/1/15        ZhuWenWu            1.0                    1.0
- * Why & What is modified:
- */
+
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static enum ITEM_TYPE {
         ITEM_TYPE_TEXT,
@@ -36,13 +26,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    private String[] newsTitles = new String[6];
-    private String[] newsSummarys = new String[6];
-    private String[] newsSources = new String[6];
+    private String[] newsTitles = new String[12];
+    private String[] newsSummarys = new String[12];
+    private String[] newsSources = new String[12];
 
     public NewsRecyclerViewAdapter(Context context) {
         ArrayList<NewsEntity> newsEntity = Constants.getNews();
-        for(int i=0;i<newsEntity.size();i++){
+        for (int i = 0; i < newsEntity.size(); i++) {
             newsTitles[i] = newsEntity.get(i).getTitle();
             newsSummarys[i] = newsEntity.get(i).getSummary();
             newsSources[i] = newsEntity.get(i).getSource();
@@ -70,7 +60,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((NewsTextViewHolder) holder).newsBody.setText(newsSources[position]);
         } else if (holder instanceof NewsImageViewHolder) {
             //((NewsImageViewHolder) holder).mTextView.setText(mTitles[position]);
-        } else{
+        } else {
             //((NewsMultiImageViewHolder) holder).mTextView.setText(mTitles[position]);
         }
     }
