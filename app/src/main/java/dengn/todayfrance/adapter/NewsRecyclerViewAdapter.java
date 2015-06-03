@@ -52,10 +52,29 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((NewsTextViewHolder) holder).newsTime.setText(newsEntity.get(position).getNewsAbstract());
             ((NewsTextViewHolder) holder).newsBody.setText(newsEntity.get(position).getSource());
         } else if (holder instanceof NewsImageViewHolder) {
-            //((NewsImageViewHolder) holder).mTextView.setText(mTitles[position]);
+            ((NewsImageViewHolder) holder).newsHead.setText(newsEntity.get(position).getTitle());
+            ((NewsImageViewHolder) holder).newsTime.setText(newsEntity.get(position).getNewsAbstract());
+            ((NewsImageViewHolder) holder).newsBody.setText(newsEntity.get(position).getSource());
+            //TODO Add image
         } else {
-            //((NewsMultiImageViewHolder) holder).mTextView.setText(mTitles[position]);
+            ((NewsMultiImageViewHolder) holder).newsHead.setText(newsEntity.get(position).getTitle());
+            ((NewsMultiImageViewHolder) holder).newsTime.setText(newsEntity.get(position).getNewsAbstract());
+            //TODO Add images
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(newsEntity.get(position).getPicOne()==null){
+            return ITEM_TYPE.ITEM_TYPE_TEXT.ordinal();
+        }
+        else if(newsEntity.get(position).getPicOne()==null&&newsEntity.get(position).getPicOne()==null){
+            return ITEM_TYPE.ITEM_TYPE_IMAGE.ordinal();
+        }
+        else{
+            return ITEM_TYPE.ITEM_TYPE_MULTI_IMAGE.ordinal();
+        }
+
     }
 
     @Override

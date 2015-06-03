@@ -1,10 +1,10 @@
 package dengn.todayfrance.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +20,14 @@ import butterknife.InjectView;
 import dengn.todayfrance.R;
 import dengn.todayfrance.adapter.NewsRecyclerViewAdapter;
 import dengn.todayfrance.bean.NewsEntity;
+import dengn.todayfrance.data.Constants;
 import dengn.todayfrance.utils.NewsHTTPUtils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefreshListener {
+public class NewsFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
 
     public static final int TYPE_LINEAR_LAYOUT = 1;
     public static final int TYPE_GRID_LAYOUT = 2;
@@ -89,19 +90,19 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
     }
 
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
-        if (isVisibleToUser && isVisible() && newsList.getVisibility() != View.VISIBLE) {
-            initData(); //加载数据的方法
-        }
 
+    @Override
+    protected void lazyLoad() {
+
+        if(Constants.DEBUG)
+            Log.d(Constants.TAG, "lazy loading called");
+        initData();
     }
+
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
 
-        initData();
+
 
     }
 
@@ -113,7 +114,6 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
             @Override
             public void success(ArrayList<NewsEntity> newsEntity, Response response) {
 
-                swipeContainer.setRefreshing(false);
 
                 newsEntities = newsEntity;
                 newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
@@ -123,7 +123,6 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
             @Override
             public void failure(RetrofitError error) {
 
-                swipeContainer.setRefreshing(false);
 
 
                 switch (error.getKind()) {
