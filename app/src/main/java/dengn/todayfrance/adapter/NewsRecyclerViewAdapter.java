@@ -2,14 +2,11 @@ package dengn.todayfrance.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
 
@@ -17,7 +14,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dengn.todayfrance.R;
 import dengn.todayfrance.bean.NewsEntity;
-import dengn.todayfrance.data.Constants;
 
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -33,19 +29,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public NewsRecyclerViewAdapter(Context context, ArrayList<NewsEntity> newsEntities) {
 
-
-        try {
-            String jsonString = Constants.objectMapper.writeValueAsString(newsEntity);
-            if(Constants.DEBUG) {
-                Log.d(Constants.TAG, "jackson: " + jsonString);
-            }
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
         mContext = context;
+        newsEntity = newsEntities;
         mLayoutInflater = LayoutInflater.from(context);
     }
 

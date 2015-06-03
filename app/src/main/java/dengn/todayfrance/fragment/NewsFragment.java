@@ -1,7 +1,6 @@
 package dengn.todayfrance.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -20,6 +20,10 @@ import butterknife.InjectView;
 import dengn.todayfrance.R;
 import dengn.todayfrance.adapter.NewsRecyclerViewAdapter;
 import dengn.todayfrance.bean.NewsEntity;
+import dengn.todayfrance.utils.NewsHTTPUtils;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefreshListener {
@@ -87,26 +91,67 @@ public class NewsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
         //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
         if (isVisibleToUser && isVisible() && newsList.getVisibility() != View.VISIBLE) {
-            //initData(); //加载数据的方法
+            initData(); //加载数据的方法
         }
-        super.setUserVisibleHint(isVisibleToUser);
+
     }
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
 
-        new Handler().postDelayed(new Runnable() {
+        initData();
+
+    }
+
+    private void initData(){
+
+
+
+        NewsHTTPUtils.todayFranceGetNews.getNews(new Callback<ArrayList<NewsEntity>>() {
             @Override
-            public void run() {
-                //Hide the refresh after 2sec
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeContainer.setRefreshing(false);
-                    }
-                });
+            public void success(ArrayList<NewsEntity> newsEntity, Response response) {
+
+                swipeContainer.setRefreshing(false);
+
+                newsEntities = newsEntity;
+                newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
+                newsList.setAdapter(newsRecyclerViewAdapter);
             }
-        }, 2000);
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                swipeContainer.setRefreshing(false);
+
+
+                switch (error.getKind()) {
+                    case NETWORK:
+                        showToast("网络错误");
+                        break;
+                    case CONVERSION:
+                        showToast("重新输入");
+                        break;
+                    case HTTP:
+                        //这里可以用Mockito模拟
+                        showToast("错误代码:"
+                                + String.valueOf(error.getResponse().getStatus())
+                                + "错误原因:" + error.getResponse().getReason());
+                        break;
+                    case UNEXPECTED:
+                        showToast("未知错误");
+                        //TODO:写入日志
+                        break;
+                }
+                showToast("failure:" + error.getKind());
+            }
+
+
+        });
+    }
+
+    private void showToast(String msg){
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
     }
 }
