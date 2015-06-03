@@ -58,6 +58,7 @@ public class NewsFragment extends BaseFragment implements SwipyRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (getArguments() != null) {
             title = getArguments().getString("title");
         }
@@ -66,6 +67,7 @@ public class NewsFragment extends BaseFragment implements SwipyRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_news, null);
         ButterKnife.inject(this, view);
@@ -116,8 +118,8 @@ public class NewsFragment extends BaseFragment implements SwipyRefreshLayout.OnR
 
 
                 newsEntities = newsEntity;
-                newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
-                newsList.setAdapter(newsRecyclerViewAdapter);
+                newsRecyclerViewAdapter.refresh(newsEntities);
+
             }
 
             @Override
