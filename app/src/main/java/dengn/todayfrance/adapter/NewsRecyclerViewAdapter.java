@@ -3,7 +3,6 @@ package dengn.todayfrance.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dengn.todayfrance.R;
 import dengn.todayfrance.bean.NewsEntity;
-import dengn.todayfrance.data.Constants;
 
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -85,18 +83,12 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
         if(newsEntity.get(position).getPicOne()==null){
-            if(Constants.DEBUG)
-                Log.d(Constants.TAG, "text type");
             return ITEM_TYPE.ITEM_TYPE_TEXT.ordinal();
         }
         else if(newsEntity.get(position).getPicTwo()==null&&newsEntity.get(position).getPicThr()==null){
-            if(Constants.DEBUG)
-                Log.d(Constants.TAG, "image type");
             return ITEM_TYPE.ITEM_TYPE_IMAGE.ordinal();
         }
         else{
-            if(Constants.DEBUG)
-                Log.d(Constants.TAG, "multi type");
             return ITEM_TYPE.ITEM_TYPE_MULTI_IMAGE.ordinal();
         }
 

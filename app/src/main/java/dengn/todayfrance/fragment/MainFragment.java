@@ -93,7 +93,7 @@ public class MainFragment extends Fragment {
         int count =  newsClassify.size();
         for(int i = 0; i< count;i++){
 
-            fragments.add(NewsFragment.newInstance(newsClassify.get(i).getTitle()));
+            fragments.add(NewsListFragment.newInstance(newsClassify.get(i).getTitle()));
         }
         return inflater.inflate(R.layout.fragment_main, container, false);
     }

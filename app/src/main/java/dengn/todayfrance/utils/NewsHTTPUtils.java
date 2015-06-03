@@ -16,9 +16,27 @@ public class NewsHTTPUtils {
 
     static final String  ENDPOINT = "http://192.168.23.1/todayfrance";
     public interface TodayFranceGetNews {
-        @GET("/getAllNews.php")
-        void getNews(Callback<ArrayList<NewsEntity>> callback);
+        @GET("/getNewsNews.php")
+        void getNewsNews(Callback<ArrayList<NewsEntity>> callback);
+
+        @GET("/getFunNews.php")
+        void getFunNews(Callback<ArrayList<NewsEntity>> callback);
+
+        @GET("/getLifeNews.php")
+        void getLifeNews(Callback<ArrayList<NewsEntity>> callback);
+
+        @GET("/getFinanceNews.php")
+        void getFinanceNews(Callback<ArrayList<NewsEntity>> callback);
     }
+//    public interface TodayFranceGetFunNews {
+//
+//    }
+//    public interface TodayFranceGetLifeNews {
+//
+//    }
+//    public interface TodayFranceGetFinanceNews {
+//
+//    }
 
     static RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint(ENDPOINT)
@@ -26,5 +44,8 @@ public class NewsHTTPUtils {
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .build();
 
-    static public TodayFranceGetNews todayFranceGetNews = restAdapter.create(TodayFranceGetNews.class);
+    static public TodayFranceGetNews todayFranceGetNewsNews = restAdapter.create(TodayFranceGetNews.class);
+//    static public TodayFranceGetFunNews todayFranceGetFunNews = restAdapter.create(TodayFranceGetFunNews.class);
+//    static public TodayFranceGetLifeNews todayFranceGetLifeNews = restAdapter.create(TodayFranceGetLifeNews.class);
+//    static public TodayFranceGetFinanceNews todayFranceGetFinanceNews = restAdapter.create(TodayFranceGetFinanceNews.class);
 }
