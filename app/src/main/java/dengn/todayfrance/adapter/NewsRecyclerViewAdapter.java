@@ -31,6 +31,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     NewsViewHolderClicks mNewsItemClickListener;
 
+
     public NewsRecyclerViewAdapter(Context context, ArrayList<NewsEntity> newsEntities) {
 
         mContext = context;
@@ -51,13 +52,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ITEM_TYPE_TEXT.ordinal()) {
 
-            return new NewsTextViewHolder(mLayoutInflater.inflate(R.layout.news_row_text, parent, false));
+            return new NewsTextViewHolder(mLayoutInflater.inflate(R.layout.news_row_text, parent, false), this);
         } else if (viewType == ITEM_TYPE.ITEM_TYPE_IMAGE.ordinal()) {
 
-            return new NewsImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_image, parent, false));
+            return new NewsImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_image, parent, false), this);
         } else {
 
-            return new NewsMultiImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_multi_image, parent, false));
+            return new NewsMultiImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_multi_image, parent, false), this);
         }
     }
 
@@ -109,7 +110,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         return newsEntity == null ? 0 : newsEntity.size();
     }
 
-    public class NewsTextViewHolder extends RecyclerView.ViewHolder{
+    public static class NewsTextViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_text_head)
         TextView newsHead;
 
@@ -121,15 +122,19 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsTextViewHolder(View view) {
+        NewsRecyclerViewAdapter mAdapter;
+
+        NewsTextViewHolder(View view, NewsRecyclerViewAdapter adapter) {
             super(view);
             ButterKnife.inject(this, view);
+
+            mAdapter = adapter;
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsItemClickListener!=null) {
-                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    if(mAdapter.mNewsItemClickListener!=null) {
+                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
                     }
                 }
             });
@@ -141,7 +146,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    public class NewsImageViewHolder extends RecyclerView.ViewHolder{
+    public static class NewsImageViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_image_head)
         TextView newsHead;
 
@@ -156,15 +161,19 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsImageViewHolder(View view) {
+        NewsRecyclerViewAdapter mAdapter;
+
+        NewsImageViewHolder(View view, NewsRecyclerViewAdapter adapter) {
             super(view);
             ButterKnife.inject(this, view);
+
+            mAdapter = adapter;
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsItemClickListener!=null) {
-                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    if(mAdapter.mNewsItemClickListener!=null) {
+                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
                     }
                 }
             });
@@ -178,7 +187,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    public class NewsMultiImageViewHolder extends RecyclerView.ViewHolder{
+    public static class NewsMultiImageViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_multi_head)
         TextView newsHead;
 
@@ -196,15 +205,19 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsMultiImageViewHolder(View view) {
+        NewsRecyclerViewAdapter mAdapter;
+
+        NewsMultiImageViewHolder(View view, NewsRecyclerViewAdapter adapter) {
             super(view);
             ButterKnife.inject(this, view);
+
+            mAdapter = adapter;
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsItemClickListener!=null) {
-                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    if(mAdapter.mNewsItemClickListener!=null) {
+                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
                     }
                 }
             });
