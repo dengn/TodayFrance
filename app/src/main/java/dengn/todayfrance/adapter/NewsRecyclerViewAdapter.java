@@ -1,7 +1,6 @@
 package dengn.todayfrance.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import dengn.todayfrance.NewsDetailActivity;
 import dengn.todayfrance.R;
 import dengn.todayfrance.bean.NewsEntity;
 
@@ -74,16 +72,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((NewsTextViewHolder) holder).newsBody.setText(newsEntity.get(position).getSource());
         } else if ( holder instanceof NewsImageViewHolder) {
 
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                    intent.putExtra("newsId", newsEntity.get(position).getNewsId());
-                    mContext.startActivity(intent);
-                }
-            });
-
             ((NewsImageViewHolder) holder).setNewsId(newsEntity.get(position).getNewsId());
             ((NewsImageViewHolder) holder).newsHead.setText(newsEntity.get(position).getTitle());
             ((NewsImageViewHolder) holder).newsTime.setText(newsEntity.get(position).getNewsAbstract());
@@ -121,7 +109,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         return newsEntity == null ? 0 : newsEntity.size();
     }
 
-    public class NewsTextViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener {
+    public class NewsTextViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_text_head)
         TextView newsHead;
 
@@ -136,21 +124,24 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         NewsTextViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsItemClickListener!=null) {
+                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    }
+                }
+            });
         }
 
         public void setNewsId(int newsId) {
             this.newsId = newsId;
         }
 
-        @Override
-        public void onClick(View v) {
-            if(mNewsItemClickListener!=null) {
-                mNewsItemClickListener.onNewsItemClick(v, newsId);
-            }
-        }
     }
 
-    public class NewsImageViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener{
+    public class NewsImageViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_image_head)
         TextView newsHead;
 
@@ -169,6 +160,15 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(view);
             ButterKnife.inject(this, view);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsItemClickListener!=null) {
+                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    }
+                }
+            });
+
             //newsImage.setAspectRatio(1.33f);
         }
 
@@ -176,15 +176,9 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             this.newsId = newsId;
         }
 
-        @Override
-        public void onClick(View v) {
-            if(mNewsItemClickListener!=null) {
-                mNewsItemClickListener.onNewsItemClick(v, newsId);
-            }
-        }
     }
 
-    public class NewsMultiImageViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener{
+    public class NewsMultiImageViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.news_multi_head)
         TextView newsHead;
 
@@ -206,6 +200,15 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(view);
             ButterKnife.inject(this, view);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsItemClickListener!=null) {
+                        mNewsItemClickListener.onNewsItemClick(v, newsId);
+                    }
+                }
+            });
+
             //newsImageLeft.setAspectRatio(1.33f);
             //newsImageCenter.setAspectRatio(1.33f);
             //newsImageRight.setAspectRatio(1.33f);
@@ -215,12 +218,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             this.newsId = newsId;
         }
 
-        @Override
-        public void onClick(View v) {
-            if(mNewsItemClickListener!=null) {
-                mNewsItemClickListener.onNewsItemClick(v, newsId);
-            }
-        }
     }
 
     public interface NewsViewHolderClicks {
