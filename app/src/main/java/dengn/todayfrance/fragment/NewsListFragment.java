@@ -1,5 +1,8 @@
 package dengn.todayfrance.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dengn.todayfrance.NewsDetailActivity;
 import dengn.todayfrance.R;
 import dengn.todayfrance.adapter.NewsRecyclerViewAdapter;
 import dengn.todayfrance.bean.NewsEntity;
@@ -27,7 +32,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
+public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener{
 
     public static final int TYPE_LINEAR_LAYOUT = 1;
     public static final int TYPE_GRID_LAYOUT = 2;
@@ -46,12 +51,19 @@ public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout
     private ArrayList<NewsEntity> newsEntities = new ArrayList<NewsEntity>();
 
 
+    private OnFragmentInteractionListener mListener;
+
+
     public static NewsListFragment newInstance(String title) {
         NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public NewsListFragment(){
+
     }
 
     @Override
@@ -86,8 +98,38 @@ public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout
         newsList.setLayoutManager(new LinearLayoutManager(getActivity()));//这里用线性显示 类似于list view
 
         newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
+        newsRecyclerViewAdapter.setOnItemClickListener(new NewsRecyclerViewAdapter.NewsViewHolderClicks() {
+            @Override
+            public void onNewsItemClick(View view, int newsId) {
+                if(Constants.DEBUG)
+                    Log.d(Constants.TAG, "news list item clicked");
+
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("newsId", newsId);
+                startActivity(intent);
+            }
+        });
         newsList.setAdapter(newsRecyclerViewAdapter);
         newsList.setItemAnimator(new DefaultItemAnimator());
+
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 
@@ -191,5 +233,20 @@ public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout
 
     private void showToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+    }
+
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(Uri uri);
     }
 }

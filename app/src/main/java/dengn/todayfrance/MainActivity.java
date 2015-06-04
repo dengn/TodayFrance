@@ -1,5 +1,6 @@
 package dengn.todayfrance;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +15,10 @@ import android.view.View;
 
 import dengn.todayfrance.adapter.DrawerListAdapter;
 import dengn.todayfrance.fragment.MainFragment;
+import dengn.todayfrance.fragment.NewsListFragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener{
 
 
     //First We Declare Titles And Icons For Our Navigation Drawer List View
@@ -125,4 +127,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
