@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dengn.todayfrance.Listener.RecyclerItemClickListener;
 import dengn.todayfrance.NewsDetailActivity;
 import dengn.todayfrance.R;
 import dengn.todayfrance.adapter.NewsRecyclerViewAdapter;
@@ -32,7 +32,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener{
+public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
 
     public static final int TYPE_LINEAR_LAYOUT = 1;
     public static final int TYPE_GRID_LAYOUT = 2;
@@ -62,7 +62,7 @@ public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout
         return fragment;
     }
 
-    public NewsListFragment(){
+    public NewsListFragment() {
 
     }
 
@@ -97,18 +97,28 @@ public class NewsListFragment extends BaseFragment implements SwipyRefreshLayout
 
         newsList.setLayoutManager(new LinearLayoutManager(getActivity()));//这里用线性显示 类似于list view
 
-        newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
-        newsRecyclerViewAdapter.setOnItemClickListener(new NewsRecyclerViewAdapter.NewsViewHolderClicks() {
-            @Override
-            public void onNewsItemClick(View view, int newsId) {
-                if(Constants.DEBUG)
-                    Log.d(Constants.TAG, "news list item clicked");
+        newsList.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                intent.putExtra("newsId", newsId);
+                intent.putExtra("newsId", newsEntities.get(position).getNewsId());
                 startActivity(intent);
             }
-        });
+        }));
+
+        newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(getActivity(), newsEntities);
+//        newsRecyclerViewAdapter.setOnItemClickListener(new NewsRecyclerViewAdapter.NewsViewHolderClicks() {
+//            @Override
+//            public void onNewsItemClick(View view, int newsId) {
+//                if(Constants.DEBUG)
+//                    Log.d(Constants.TAG, "news list item clicked");
+//
+//                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+//                intent.putExtra("newsId", newsId);
+//                startActivity(intent);
+//            }
+//        });
         newsList.setAdapter(newsRecyclerViewAdapter);
         newsList.setItemAnimator(new DefaultItemAnimator());
 

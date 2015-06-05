@@ -29,7 +29,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private final Context mContext;
     ArrayList<NewsEntity> newsEntity;
 
-    NewsViewHolderClicks mNewsItemClickListener;
+
 
 
     public NewsRecyclerViewAdapter(Context context, ArrayList<NewsEntity> newsEntities) {
@@ -44,21 +44,19 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(NewsViewHolderClicks newsItemClickListener){
-        mNewsItemClickListener = newsItemClickListener;
-    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ITEM_TYPE_TEXT.ordinal()) {
 
-            return new NewsTextViewHolder(mLayoutInflater.inflate(R.layout.news_row_text, parent, false), this);
+            return new NewsTextViewHolder(mLayoutInflater.inflate(R.layout.news_row_text, parent, false));
         } else if (viewType == ITEM_TYPE.ITEM_TYPE_IMAGE.ordinal()) {
 
-            return new NewsImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_image, parent, false), this);
+            return new NewsImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_image, parent, false));
         } else {
 
-            return new NewsMultiImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_multi_image, parent, false), this);
+            return new NewsMultiImageViewHolder(mLayoutInflater.inflate(R.layout.news_row_multi_image, parent, false));
         }
     }
 
@@ -122,22 +120,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsRecyclerViewAdapter mAdapter;
 
-        NewsTextViewHolder(View view, NewsRecyclerViewAdapter adapter) {
+
+        NewsTextViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
 
-            mAdapter = adapter;
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mAdapter.mNewsItemClickListener!=null) {
-                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
-                    }
-                }
-            });
         }
 
         public void setNewsId(int newsId) {
@@ -161,22 +150,12 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsRecyclerViewAdapter mAdapter;
 
-        NewsImageViewHolder(View view, NewsRecyclerViewAdapter adapter) {
+        NewsImageViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
 
-            mAdapter = adapter;
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mAdapter.mNewsItemClickListener!=null) {
-                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
-                    }
-                }
-            });
 
             //newsImage.setAspectRatio(1.33f);
         }
@@ -205,22 +184,12 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private int newsId;
 
-        NewsRecyclerViewAdapter mAdapter;
 
-        NewsMultiImageViewHolder(View view, NewsRecyclerViewAdapter adapter) {
+
+        NewsMultiImageViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
 
-            mAdapter = adapter;
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mAdapter.mNewsItemClickListener!=null) {
-                        mAdapter.mNewsItemClickListener.onNewsItemClick(v, newsId);
-                    }
-                }
-            });
 
             //newsImageLeft.setAspectRatio(1.33f);
             //newsImageCenter.setAspectRatio(1.33f);
